@@ -12,16 +12,37 @@ const app = express();
 // clears every one second
 
 let numberOfRequestsForUser = {};
+// console.log(numberOfRequestsForUser)
 setInterval(() => {
     numberOfRequestsForUser = {};
-}, 1000)
+}, 10000)
+
+app.use(function(req,res,next) {
+  const userId = req.headers['user-id']
+  // console.log(userId)
+  if(numberOfRequestsForUser[userId]){
+    numberOfRequestsForUser[userId] = numberOfRequestsForUser[userId] + 1;
+    // console.log("Entered counting")
+    if(numberOfRequestsForUser[userId] > 5){
+      res.status(404).send("You have reached the limit per minute");
+    }else{
+      next()
+    }
+  }else{
+    numberOfRequestsForUser[userId] = 1;
+    next()
+  }
+})
 
 app.get('/user', function(req, res) {
-  res.status(200).json({ name: 'john' });
+  const id = req.headers['user-id'];
+  // console.log(numberOfRequestsForUser)
+  res.status(200).json({ name: 'john' ,id});
 });
 
 app.post('/user', function(req, res) {
   res.status(200).json({ msg: 'created dummy user' });
 });
 
+app.listen(3000)
 module.exports = app;
