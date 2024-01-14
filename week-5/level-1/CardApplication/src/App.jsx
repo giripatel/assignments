@@ -20,8 +20,6 @@ function App() {
       name: name,
       description: description,
     }));
-    
-
   }
 
   function handleSubmit(e) {
