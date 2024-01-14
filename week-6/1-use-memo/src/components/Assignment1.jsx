@@ -7,11 +7,12 @@ export function Assignment1() {
     const [input, setInput] = useState(0);
     // Your solution starts here
     
-    let expensiveValue = 1;
     const expensiveOperation = useMemo(() => {
+        let expensiveValue = 1;
     for(let i = 2; i<=input;i++){
         expensiveValue=expensiveValue*i;
     }
+    return expensiveValue
 },[input])
     // Your solution ends here
 
@@ -19,10 +20,10 @@ export function Assignment1() {
         <div>
             <input 
                 type="number" 
-                // value={input} 
+                value={input} 
                 onChange={(e) => setInput(Number(e.target.value))} 
             />
-            <p>Calculated Value: {expensiveValue}</p>
+            <p>Calculated Value: {expensiveOperation}</p>
         </div>
     );
 }
